@@ -57,11 +57,14 @@ public class IndexController {
     public @ResponseBody String join(User user){
         System.out.println(user);
         user.setRole("ROLE_USER");
+        //id, createDate 자동으로 만들어진다.
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
 
-        userRepository.save(user); //회원가입 잘됨. 비밀번호 :1234 => 시큐리티로 로그인 할 수 없음. 이유는 패스워드가 암호화가 안되있기 때뮨!
+        userRepository.save(user); //회원가입 잘됨. 비밀번호 :1234 => 시큐리티로 로그인 할 수 없음.
+        // 이유는 패스워드가 암호화가 안되있기 때뮨!
+
         return"redirect:/loginForm";
     }
 
