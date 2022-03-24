@@ -20,6 +20,10 @@ public class User {
     private String password;
     private String email;
     private String role; //role.user
+
+    private String provider;
+    private String providerId;
+
     //private Timestamp loginDate; // 로그인할때마다 날짜를 넣어둬서 휴먼계정
     @CreationTimestamp
     private Timestamp createDate;
