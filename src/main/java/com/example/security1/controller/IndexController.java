@@ -3,6 +3,8 @@ package com.example.security1.controller;
 import com.example.security1.model.User;
 import com.example.security1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,6 +68,18 @@ public class IndexController {
         // 이유는 패스워드가 암호화가 안되있기 때뮨!
 
         return"redirect:/loginForm";
+    }
+
+    @Secured("ROLE_ADMIN") //특정 메서드에 권한을 줄경우 간단하게 설정
+    @GetMapping("/info")
+    public @ResponseBody String info(){
+        return "개인정보";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") //data메서드가 실행되기 직전에 실행됨! 여러 권한 등록하고싶을때
+    @GetMapping("/data")
+    public @ResponseBody String data(){
+        return "개인정보";
     }
 
 }
