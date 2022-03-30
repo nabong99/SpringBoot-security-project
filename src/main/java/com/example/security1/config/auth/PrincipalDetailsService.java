@@ -25,6 +25,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     //시큐리티 session(내부 Authentication(내부 UserDetails))
     //loadUserByUsername 요놈이 알아서 쏙 넣어줌
 
+    //함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //String username 해당 username 과 view에 <input> name="username" 이 같아야함!!

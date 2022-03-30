@@ -13,18 +13,31 @@ package com.example.security1.config.auth;
 //--꺼내쓸때는 Security Session ->Authentication ->UserDetails(PrincipalDetails) 객체 접근
 
 import com.example.security1.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails , OAuth2User {
 
     private User user; //콤포지션
+    private Map<String,Object> attributes;
 
+    //일반 로그인 생성자
     public PrincipalDetails(User user){
         this.user =user;
+    }
+
+    //OAuth 로그인 생성자
+    public PrincipalDetails(User user, Map<String,Object> attributes)
+    {
+        this.user =user;
+        this.attributes=attributes;
     }
 
     //해당 User의 권한을 리턴하는 곳
@@ -78,5 +91,17 @@ public class PrincipalDetails implements UserDetails {
         //우리 사이트!! 1년동안 회원이 로그인을 안하면 휴면 계정으로 하기로 함.
         //user.getLoginDate(); 현재시간 -로긴시간 => 1년 초과하면 return false;
         return true;
+    }
+
+    // OAuth ============================================
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        //return attributes.get("sub"); 안중요하고 쓰지 않아서 주석처리
+        return null;
     }
 }
